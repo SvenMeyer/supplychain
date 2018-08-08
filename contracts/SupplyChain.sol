@@ -77,10 +77,14 @@ contract SupplyChain {
        skuCount = 0;
   }
 
-  function addItem(string _name, uint _price) public {
-    emit ForSale(skuCount);
+  function getSkuCount() public view returns(uint sku) {
+    return skuCount;
+  }
+
+  function addItem(string _name, uint _price) public returns(uint sku) {
     items[skuCount] = Item({name: _name, sku: skuCount, price: _price, state: State.ForSale, seller: msg.sender, buyer: 0});
-    skuCount = skuCount + 1;
+    emit ForSale(skuCount);
+    return skuCount++;
   }
 
   /* Add a keyword so the function can be paid. This function should transfer money
