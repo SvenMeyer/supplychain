@@ -1,4 +1,5 @@
-pragma solidity ^0.4.23;
+pragma solidity ^0.4.24;
+pragma experimental ABIEncoderV2; // available experimental from version 0.4.19
 
 contract SupplyChain {
 
@@ -142,8 +143,12 @@ contract SupplyChain {
     return (name, sku, price, state, seller, buyer);
   }
 
-  function getItem(uint sku) returns (Item item) {
-    return items[sku];
+  function getItem(uint _sku) public view returns (Item) {
+    return items[_sku];
+  }
+
+  function getItemPrice(uint _sku) public view returns (uint) {
+    return items[_sku].price;
   }
 
 }

@@ -9,7 +9,17 @@ contract TestSupplyChain {
     //calling the DeployedAddresses smart contract to get its address.
     SupplyChain sc = SupplyChain(DeployedAddresses.SupplyChain());
     uint sku = 0; //sku of first item will be = 0
-    
+
+    enum State {ForSale, Sold, Shipped, Received}
+
+    struct Item {
+        string name;
+        uint sku;
+        uint price; 
+        State state;
+        address seller;
+        address buyer;
+    }
 
     // Test for failing conditions in this contracts
 
@@ -22,8 +32,12 @@ contract TestSupplyChain {
         sku = sc.addItem(name, price);
         Assert.equal(0, sku, "sku of first item should be 0");
         Assert.equal(1, sc.getSkuCount(), "skuCount should be 1");
-//        Assert.equal(sc.items[sku].price, price, "price should have been set correctly");
-//        Assert.equal(sc.items[sku].name,  name,  "name should have been set correctly" );
+        // getItem uses experimental ABIEncoderV2
+        // TypeError: Type struct SupplyChain.Item memory is not implicitly convertible to expected type struct TestSupplyChain.Item memory.
+        // Item /* storage/memory */ item = sc.getItem(sku);
+        // Assert.equal(item.name,  name,  "name should have been set correctly" );
+        Assert.equal(price, sc.getItemPrice(sku), "price should have been set correctly");
+
     }
 /*
     function testBuyItem() public {
