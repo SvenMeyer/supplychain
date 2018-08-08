@@ -142,4 +142,8 @@ contract SupplyChain {
     return (name, sku, price, state, seller, buyer);
   }
 
+  function getItem(uint sku) returns (Item item) {
+    return items[sku];
+  }
+
 }
